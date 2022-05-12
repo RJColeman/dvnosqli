@@ -1,5 +1,6 @@
 ARG ALPINE_VERSION=3.15
 FROM alpine:${ALPINE_VERSION}
+WORKDIR /var/www/html
 
 # Install packages and remove default server definition
 RUN apk --update add --virtual \
@@ -45,6 +46,17 @@ RUN cd mongo-php-driver && \
 
 RUN sed -i s/\;extension=shmop/extension=mongodb/g '/etc/php8/php.ini'
 
+# install php redis 
+RUN git clone https://github.com/nicolasff/phpredis.git
+RUN cd phpredis && \ 
+    phpize && \
+    ./configure && \
+    make && \
+    make install
+
+RUN cp phpredis/modules/*.so /usr/lib/php8/modules/
+RUN sed -i s/\;extension=pgsql/extension=redis/g '/etc/php8/php.ini'
+
 # Configure nginx
 COPY config/nginx.conf /etc/nginx/nginx.conf
 
@@ -54,21 +66,21 @@ COPY config/php.ini /etc/php8/conf.d/custom.ini
 
 # Configure supervisord
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY ./src/php/composer.json .
 
 # Install composer from the official image
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 # Run composer require for all requirements
-RUN composer require laudis/neo4j-php-client 
-RUN composer require mongodb/mongodb --ignore-platform-reqs
-RUN composer require jenssegers/mongodb --ignore-platform-reqs
+# COPY src/php/composer.json /var/www/html/composer.json
+RUN composer require laudis/neo4j-php-client mongodb/mongodb  jenssegers/mongodb doctrine/orm
 
 # Run composer install to install the dependencies
 RUN composer install \
-  --optimize-autoloader \
-  --no-interaction \
-  --no-progress
+    --optimize-autoloader \
+    --no-interaction \
+    --no-progress
+
+RUN rm -rf mongo-php-driver phpredis
 
 # Make sure files/folders needed by the processes are accessable when they run under the nobody user
 RUN chown -R nobody.nobody /run 

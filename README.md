@@ -29,9 +29,40 @@ To access the web front end browse to [http://localhost:8084/](http://localhost:
 
 ## Neo4j 
 
-To access the Neo4j frontend browse to [http://localhost:7474/browser/](http://localhost:7474/browser/)
+After running `docker compose up`, you'll need to load the test data and change your neo4j default password. From the root of this repository run:
+
+
+   ```
+   sh bin/load-neo4j.sh
+   ```
+You should see output as follows:
+
+  ```
+  Connecting to container ....
+  Executing data load ....
+  Completeed data load ....
+  ``` 
+To confirm test data was loaded:
+
+1. Browse to [http://localhost:7474/browser/](http://localhost:7474/browser/)
+2. Log in with username/password neo4j/protect-toga-hair-oberon-coral-2052
+3. Execute the following query
+
+ ```
+ match (n) return n
+ ```
+4. You should see nodes and relationships
 
 ## Mongo
+
+You need to set up the database used by application:
+
+1. Browse to [http://localhost:8081/](http://localhost:8081/)
+2. Enter `test` into the `+ create database` field and click `+ create database`
+3.  mongoimport -u root -p example --authenticationDatabase admin --db test --collection restaurants --type json --file j.json
+
+* Test data from https://raw.githubusercontent.com/ozlerhakan/mongodb-json-files/master/datasets/restaurant.json
+
 
 To access the mongodb shell:
 

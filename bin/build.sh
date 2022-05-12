@@ -1,3 +1,3 @@
-docker build -t dvneo4j:latest .
+docker build -t dvnosqli:latest .
 docker-compose build
 docker-compose up

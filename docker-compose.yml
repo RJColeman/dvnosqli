@@ -4,22 +4,31 @@ networks:
 services:
   frontend:
     build: .
-    image: "dvnosqli:0.0"
+    image: "dvnosqli:latest"
     volumes:
-      - "./src/php:/var/www/html"
+      - "./src/php:/var/www/html/app"
     ports: 
-      - "8084:8080"
+      - "127.0.0.1:8084:8080"
     networks:
       - network
     stdin_open: true # docker run -i
     tty: true        # docker run -t
+  redis:
+    image: redis
+    restart: always
+    ports:
+      - "127.0.0.1:6379:6379"
+    networks:
+      - network
   neo4j:
+    # protect-toga-hair-oberon-coral-2052
     image: "neo4j:community"
     ports:
-      - "7474:7474"
-      - "7687:7687"
+      - "127.0.0.1:7474:7474"
+      - "127.0.0.1:7687:7687"
     volumes: 
-      - "./.data:/data:rw"
+      - "./.data-neo4j:/data:rw"
+      - "./data-load/neo4j:/data-load:r"
     networks:
       - network
   mongo:
@@ -30,17 +39,24 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: example
     networks:
       - network
+  mongo-load: # only for loading mongo data
+    build: ./data-load/mongo/
+    image: "mongo-load:dvnosqli"
+    command: mongoimport --host dvnosqli_mongo_1 -u root -p example --authenticationDatabase admin --db test --collection restaurants --type json --file /restaurants.json
+    depends_on:
+      - mongo
+    networks:
+      - network
   mongo-frontend:
     image: mongo-express
     depends_on:
-      - "mongo"
+      - mongo
     environment: 
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
     ports: 
-      - "8081:8081"
+      - "127.0.0.1:8081:8081"
     networks:
       - network
     restart: unless-stopped
-
