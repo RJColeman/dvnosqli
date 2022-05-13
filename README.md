@@ -2,21 +2,26 @@
 
 ## PHP & Nginx Details
 
-To rebuld from scratch, make sure you've removed all related docker images and containers, then, from the repository root directory, run:
+To run your first build run the following commands:
 
 ```
-$> sh build.sh
+$> docker-compose build
+$> docker-compose up
+$> sh bin/load-neo4j.sh
 ```
 
-This script is short and sweet:
+At the very end you should see output as follows:
+
+  ```
+  Connecting to Neo4j container ....
+  Executing Neo4j data load ....
+  Completeed Neo4j data load ....
+  ``` 
+
+To rebuld from scratch, make sure you've removed all related docker images, containers, volumes, and networks, then re-run the steps above. You may use the following command to clear out docker objects, but you should examine the commands in this shell script first.
 
 ```
-# build our own custom web server
-docker build -t dvneo4j:latest .
-
-# build and bring all containers and networks up 
-docker-compose build
-docker-compose up
+sh bin/start-over-clean.sh
 ```
 
 # Network Details
@@ -29,20 +34,7 @@ To access the web front end browse to [http://localhost:8084/](http://localhost:
 
 ## Neo4j 
 
-After running `docker compose up`, you'll need to load the test data and change your neo4j default password. From the root of this repository run:
-
-
-   ```
-   sh bin/load-neo4j.sh
-   ```
-You should see output as follows:
-
-  ```
-  Connecting to container ....
-  Executing data load ....
-  Completeed data load ....
-  ``` 
-To confirm test data was loaded:
+To confirm that the test data was loaded:
 
 1. Browse to [http://localhost:7474/browser/](http://localhost:7474/browser/)
 2. Log in with username/password neo4j/protect-toga-hair-oberon-coral-2052
