@@ -17,13 +17,13 @@ class SearchFactory {
   function withLevel(int $level): Object {
      switch ($level) {
       case 1:
-        return new Medium();
+        return new Medium(1);
       case 2:
-        return new Hard();
+        return new Hard(2);
       case 3:
-        return new Impossible();
+        return new Impossible(3);
       default:
-        return new Easy();
+        return new Easy(0);
     }
   }
 }
@@ -33,11 +33,13 @@ class Search {
   protected $neo4j;
   protected $include;
   protected $results;
+  protected $level;
 
-  function __construct() {
+  function __construct($level) {
     $this->neo4j = ClientBuilder::create()
         ->withDriver('bolt', 'bolt://neo4j:protect-toga-hair-oberon-coral-2052@dvnosqli_neo4j_1:7687') // creates a bolt driver
         ->build();
+    $this->level = $level;
   }
 
   function testQuery(string $data): Laudis\Neo4j\Databags\SummarizedResult {
@@ -61,7 +63,7 @@ class Search {
           try { 
             $output .= $result->get('movie')->getProperty('title');
           } catch (Exception $e) { 
-            $output .= ""; 
+            $output .= "";
           } 
         $output .= "</td></tr>";
       }

