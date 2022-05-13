@@ -134,6 +134,8 @@ class Medium extends Easy {
       $this->results = $this->neo4j->run($query );
     } catch (Exception $e) {
       echo ("There was an error with your query " . $e->getMessage());
+      echo ("<br>");
+      echo ($query);
       throw $e;
     }
   }

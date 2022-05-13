@@ -1,16 +1,17 @@
 #!/bin/bash
 
-echo "************************************************"
 echo ""
-echo "   REWRITE TO ONLY REMOVE DVNOSQLi OBJECTS"
+echo "stopping all containers for dvnosqli......"
 echo ""
-echo "************************************************"
-docker-compose down
-docker stop $(docker ps -aq)
-docker rm --force $(docker ps -aq)
-docker rmi --force $(docker images -q)
-docker volume rm --force $(docker volume ls -q)
-docker system prune --force
+docker stop $(docker ps --filter "name=dvnosqli.*" -aq) 2> null
+echo "removing all containers for dvnosqli......"
+echo ""
+docker rm --force $(docker ps --filter "name=dvnosqli.*" -aq) 2> null
+echo "removing dvnosqli frontend container......"
+echo ""
+docker rmi --force $(docker images --filter "label=com.rjcoleman.dvnosqli" -q) 2> null
+docker volume prune 
+docker network prune 
 rm -rf .data-neo4j/*
 echo "************************************************"
 echo ""

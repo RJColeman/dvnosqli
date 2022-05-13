@@ -93,6 +93,8 @@ USER nobody
 # Expose the port nginx is reachable on
 EXPOSE 8080
 
+LABEL com.rjcoleman.dvnosqli="1.0"
+
 # Let supervisord start nginx & php-fpm
 # CMD ["/var/www/html/wait-for-mongo.sh", "/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

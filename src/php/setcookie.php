@@ -8,6 +8,10 @@ if (isset($_GET['level']) && isset($levels[$_GET['level']])) {
   setcookie('level', '0');
 }
 
-header("location: " . $_SERVER['HTTP_REFERER']);
+if (isset($_SERVER['HTTP_REFERER'])) {
+  header("location: " . $_SERVER['HTTP_REFERER']);
+} else {
+  header("location: /app/");
+}
 exit();
 ?>

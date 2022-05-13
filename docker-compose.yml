@@ -15,6 +15,8 @@ services:
     tty: true        # docker run -t
   redis:
     image: redis
+    labels:
+      com.rjcoleman.dvnosqli: "dvnosqli"
     restart: always
     ports:
       - "127.0.0.1:6379:6379"
@@ -29,6 +31,8 @@ services:
     volumes: 
       - "./.data-neo4j:/data:rw"
       - "./data-load/neo4j:/data-load:r"
+    labels:
+      com.rjcoleman.dvnosqli: "dvnosqli"
     networks:
       - network
   mongo:
@@ -37,6 +41,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
+    labels:
+      com.rjcoleman.dvnosqli: "dvnosqli"
     networks:
       - network
   mongo-load: # only for loading mongo data
@@ -57,6 +63,8 @@ services:
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
     ports: 
       - "127.0.0.1:8081:8081"
+    labels:
+      com.rjcoleman.dvnosqli: "dvnosqli"
     networks:
       - network
     restart: unless-stopped

@@ -1,27 +1,57 @@
-## Neo4j EASY
+## Neo4j 
+
+In part, this application tests your knowledge of Neo4j and Cypher Query Language. Below you will find hints and steps for full walkthroughs. 
+
+### EASY
 
 <details>
   <summary>Hints</summary>
 
   1. Can you modify the request before it gets sent to server?
-  2. Can you modify the request so the application displays an error with the cypher query? 
-  3. Can you modify the request to include the Cypher equivalent to sql injection's ```x' or 'x'='x```
+  2. Can you modify the request so the application displays an error with the Cypher query? 
+  3. Can you modify the request to include the Cypher equivalent to sql injection's ```x' or 'x'='x```?
 </details>
 
 <details>
   <summary>Walkthrough</summary>
 
-  1. Browse to the Using Burp or ZAP, intercept request after clicking "go" on Neo4j search page
-  2. Edit the request: Change ```person=Tom+Hanks``` to ```person=xxxxx"```
-  3. Forward the request
-  4. Back in your browser, observe the query in the error message
-  5. Send another request and intercept it
-  6. Edit the request: Change ```person=Tom+Hanks`` to ```person=Tom+Hanks" or person.name=~".*```
-  7. Forward the request
-  8. Back in your browser look for the FLAGs
+  1. Browse to the Neo4j page of the app.
+  2. Using Burp or ZAP, intercept your request after clicking "go" on the app's Neo4j page.
+  3. Edit ```person=Tom+Hanks``` to ```person=xxxxx"``` in the request body.
+  4. Forward the request.
+  5. Back in your browser, observe the query in the error message.
+  6. Send another request and intercept it.
+  7. Edit the request: Change ```person=Tom+Hanks`` to ```person=Tom+Hanks" or person.name=~".*```.
+  8. Forward the request.
+  9. Back in your browser look for the FLAGs.
 </details>
 
 ## Neo4j MEDIUM 
+
+<details>
+  <summary>Hints</summary>
+
+  1. Modify the request so the application displays an error with the Cypher query. 
+  2. The payload here depends on understanding Cypher Query Language as well as understanding how application code might rely on variable names used in the ```return`` portion of the query. 
+</details>
+
+<details>
+  <summary>Walkthrough</summary>
+
+  There are multiple ways to get the flags at this level, one of which does not require Cypher Injection; below is one that does, and requires some knowledge of Neo4j and Cypher Query Language.
+
+  1. Browse to the Neo4j page of the app.
+  2. Select something in the second dropdown.
+  3. Using Burp or ZAP, intercept your request after clicking "go" on the app's Neo4j page.
+  4. Edit ```person=Tom+Hanks``` to ```person=Tom+Hanks"``` in the request body.
+  5. Forward the request.
+  6. Back in your browser, observe the query in the error message.
+  7. Send another request and intercept it.
+  8. Edit the request: Change ```person=Tom+Hanks`` to ```person=Tom+Hanks"})-[role]-(movie) return person,role,movie//```.
+  9. Create a text file containing the list of names from the select dropdown.
+  10. Use Burp intruder to replace ```Tom+Hanks``` with the names from the file. 
+  11. Find results in intruder that contain the text FLAG.
+</details>
 
 ## Neo4j HARD
 
@@ -30,9 +60,12 @@
 <details>
   <summary>Hints</summary>
 
-  1. You need your own webserver where you may monitor access logs or  [Burp Collaborator](https://portswigger.net/burp/documentation/desktop/tools/collaborator-client) for the BONUS flags
-  2. Learn and use [Neo4j's db.labels() and db.propertyKeys() procedures](https://neo4j.com/docs/cypher-manual/current/clauses/call/) to learn what's in this database.
-  3. Learn and use [Neo4j's LOAD CSV functionality](https://neo4j.com/developer/guide-import-csv/) to cause Neo4j to make http requests
+  1. To get the BONUS flags, you will need either:
+    * Your own webserver where you may monitor access logs 
+    * [Burp Collaborator](https://portswigger.net/burp/documentation/desktop/tools/collaborator-client) 
+  2. You will need to understand how to use [Neo4j's db.labels() and db.propertyKeys() procedures](https://Neo4j.com/docs/cypher-manual/current/clauses/call/) to map this database.
+  3. You will need to understand how to use [Neo4j's LOAD CSV functionality](https://Neo4j.com/developer/guide-import-csv/) to cause Neo4j to make http requests.
+  4. You will need to understand how to use the two together to [extract information from Neo4j](https://www.sidechannel.blog/en/the-cypher-injection-saga/).
 </details>
 
 <details>
