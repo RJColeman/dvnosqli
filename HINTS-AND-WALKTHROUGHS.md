@@ -15,7 +15,7 @@ In part, this application tests your knowledge of Neo4j and Cypher Query Languag
 <details>
   <summary>Walkthrough</summary>
 
-  1. Browse to the Neo4j page of the app.
+  1. Browse to the [Neo4j page](http://localhost:8084/app/?db=neo4j) of the app.
   2. Using Burp or ZAP, intercept your request after clicking "go" on the app's Neo4j page.
   3. Edit ```person=Tom+Hanks``` to ```person=xxxxx"``` in the request body.
   4. Forward the request.
@@ -26,7 +26,7 @@ In part, this application tests your knowledge of Neo4j and Cypher Query Languag
   9. Back in your browser look for the FLAGs.
 </details>
 
-## Neo4j MEDIUM 
+### MEDIUM 
 
 <details>
   <summary>Hints</summary>
@@ -40,8 +40,8 @@ In part, this application tests your knowledge of Neo4j and Cypher Query Languag
 
   There are multiple ways to get the flags at this level, one of which does not require Cypher Injection; below is one that does, and requires some knowledge of Neo4j and Cypher Query Language.
 
-  1. Browse to the Neo4j page of the app.
-  2. Select something in the second dropdown.
+  1. Browse to the [Neo4j page](http://localhost:8084/app/?db=neo4j) of the app.
+  2. Select anything in the second dropdown.
   3. Using Burp or ZAP, intercept your request after clicking "go" on the app's Neo4j page.
   4. Edit ```person=Tom+Hanks``` to ```person=Tom+Hanks"``` in the request body.
   5. Forward the request.
@@ -53,9 +53,31 @@ In part, this application tests your knowledge of Neo4j and Cypher Query Languag
   11. Find results in intruder that contain the text FLAG.
 </details>
 
-## Neo4j HARD
+### HARD
 
-## Neo4j BONUS  
+<details>
+  <summary>Hints</summary>
+
+  1. There is no Cypher Injection attack at the Hard level 
+  2. Burp Intruder and info you have gathered in the Easy and Meidum levels will help you at this level. 
+</details>
+
+<details>
+  <summary>Walkthrough</summary>
+
+  1. Turn Intercept off in Burp.
+  2. Browse to the [Neo4j page](http://localhost:8084/app/?db=neo4j) of the app.
+  3. Select anything in the second dropdown and click go.
+  4. In Burp, find this request and send it to intruder.
+  5. In intruder, select the value for ```person``` and the value for ```role``` as your attack vectors.
+  6. Select Cluster Bomb as your Attack Type.
+  7. Use the list of "persons" you used in Medium as the payload for ```person```.
+  8. Use a list you've gathered from the previous 2 steps as the payload for ```role```.
+  9. Click ```start attack```.
+  10. Search for ```FLAG`` in the results to find the 3 flags at this level.
+</details>
+
+### BONUS  
 
 <details>
   <summary>Hints</summary>
