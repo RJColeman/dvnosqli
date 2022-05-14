@@ -1,16 +1,28 @@
-<?php 
-   //Connecting to Redis server on localhost 
-   $redis = new Redis(); 
-   $redis->connect('dvnosqli_redis_1', 6379); 
-   echo "Connection to server sucessfully"; 
-   //check whether server is running or not 
-   echo "Server is running: ".$redis->ping(); 
-   $redis->set($key, "Redis tutorial");
-   $redis->set('1abcd', "Redis tutorial");
-   $redis->set('1efgh', "Redis tutorial");
-   $redis->set('1ijkl', "Redis tutorial");
-   echo "getting tutorial-name " . $redis->get("tutorial-name");
-   echo "getting keys " . print_r($redis->keys('1*'));
-   $keys = $redis->keys('1*');
-   echo 'getting all values' . $redis->get($keys[0]);
+<?php
+require_once $_BASE_PATH . 'redis/Redis.php';
+if (isset($_GET['test'])) {
+  try {
+
+    $redis = RedisBuilder::create()
+           ->withLevel($_COOKIE['level']);
+    $redis->testSet('test:key', 'my test value');
+    echo $redis->testGet('test:key');
+
+  } catch (Exception $e) {
+    echo ("caught exception: ". $e->getMessage());
+  }
+} 
+try {
+
+  $redis = RedisBuilder::create()
+          ->withLevel($_COOKIE['level']);
+
+} catch (Exception $e) {
+  error_log("caught exception: ". $e->getMessage());
+}
+$output = $redis->printResults();
+if (strstr($output, 'FLAG')) {
+  require_once($_BASE_PATH . 'banner.html');
+}
+echo $output;
 ?>
