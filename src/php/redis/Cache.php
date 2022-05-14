@@ -11,15 +11,15 @@
    $keys = $redis->keys('1*');
    echo 'getting all values' . $redis->get($keys[0]);
 */
-class RedisBuilder {
+class CacheBuilder {
 
-  static function create(): RedisFactory {
-    return new RedisFactory();
+  static function create(): CacheFactory {
+    return new CacheFactory();
   }
 
 }
 
-class RedisFactory {
+class CacheFactory {
 
   function withLevel(int $level): Object {
      switch ($level) {
@@ -35,7 +35,7 @@ class RedisFactory {
   }
 }
 
-class Redis {
+class Cache {
 
   protected $redis;
   protected $data;
@@ -71,7 +71,7 @@ class Redis {
 
 }
 
-class Easy extends Redis {
+class Easy extends Cache {
 
   /**
    * @return list of all names with disabled set to true if not permitted
