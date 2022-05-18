@@ -1,6 +1,11 @@
 ## Neo4j 
 
-In part, this application tests your knowledge of Neo4j and Cypher Query Language. Below you will find hints and steps for full walkthroughs. 
+In part, this application tests your knowledge of Neo4j and Cypher Query Language. Below you will find hints and steps for full walkthroughs for each level and the BONUS flags. The Walkthrough steps focus on the use of BurpSuite Pro, but for Easy, Medium, and Hard levels, BurpSuite Community and Zap can be used as well. For the BONUS flags, you will need one of the following:
+
+1. Burp Collaborator
+2. Your own webserver where you can see your access logs
+    * This could be a server you already own as long as you are able to view the access logs
+    * This could be a server you spin up with docker just for this exercise as long as you can view the acces logs
 
 ### EASY
 
@@ -8,8 +13,8 @@ In part, this application tests your knowledge of Neo4j and Cypher Query Languag
   <summary>Hints</summary>
 
   1. Can you modify the request before it gets sent to server?
-  2. Can you modify the request so the application displays an error with the Cypher query? 
-  3. Can you modify the request to include the Cypher equivalent to sql injection's ```x' or 'x'='x```?
+  2. Can you modify the request so the application displays an error that includes the Cypher query syntax? 
+  3. Can you modify the request to include the Cypher equivalent of sql injection's ```x' or 'x'='x```?
 </details>
 
 <details>
@@ -21,7 +26,7 @@ In part, this application tests your knowledge of Neo4j and Cypher Query Languag
   4. Forward the request.
   5. Back in your browser, observe the query in the error message.
   6. Send another request and intercept it.
-  7. Edit the request: Change ```person=Tom+Hanks`` to ```person=Tom+Hanks" or person.name=~".*```.
+  7. Edit the request: Change ```person=Tom+Hanks``` to ```person=Tom+Hanks" or person.name=~".*```.
   8. Forward the request.
   9. Back in your browser look for the FLAGs.
 </details>
@@ -47,7 +52,7 @@ In part, this application tests your knowledge of Neo4j and Cypher Query Languag
   5. Forward the request.
   6. Back in your browser, observe the query in the error message.
   7. Send another request and intercept it.
-  8. Edit the request: Change ```person=Tom+Hanks`` to ```person=Tom+Hanks"})-[role]-(movie) return person,role,movie//```.
+  8. Edit the request: Change ```person=Tom+Hanks``` to ```person=Tom+Hanks"})-[role]-(movie) return person,role,movie//```.
   9. Create a text file containing the list of names from the select dropdown.
   10. Use Burp intruder to replace ```Tom+Hanks``` with the names from the file. 
   11. Find results in intruder that contain the text FLAG.
