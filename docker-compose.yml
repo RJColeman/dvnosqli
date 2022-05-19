@@ -2,17 +2,28 @@
 networks:
   network: {}
 services:
-  frontend:
-    build: .
-    image: "dvnosqli:latest"
+  php-app:
+    build: ./apps/php/
+    image: "dvnosqli-php:latest"
     volumes:
-      - "./src/php:/var/www/html/app"
+      - "./apps/php/src:/var/www/html"
     ports: 
       - "127.0.0.1:8084:8080"
     networks:
       - network
     stdin_open: true # docker run -i
     tty: true        # docker run -t
+#  node-app:
+#    build: ./apps/
+#    image: "dvnosqli-node:latest"
+#    volumes:
+#      - "./apps/node/src:/var/www/html"
+#    ports: 
+#      - "127.0.0.1:8084:8080"
+#    networks:
+#      - network
+#    stdin_open: true # docker run -i
+#    tty: true        # docker run -t
   redis:
     image: redis
     labels:
@@ -48,23 +59,23 @@ services:
   mongo-load: # only for loading mongo data
     build: ./data-load/mongo/
     image: "mongo-load:dvnosqli"
-    command: mongoimport --host dvnosqli_mongo_1 -u root -p example --authenticationDatabase admin --db test --collection restaurants --type json --file /restaurants.json
+    command: sh /start.sh
     depends_on:
       - mongo
     networks:
       - network
-  mongo-frontend:
-    image: mongo-express
-    depends_on:
-      - mongo
-    environment: 
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: example
-      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
-    ports: 
-      - "127.0.0.1:8081:8081"
-    labels:
-      com.rjcoleman.dvnosqli: "dvnosqli"
-    networks:
-      - network
-    restart: unless-stopped
+#  mongo-frontend:
+#    image: mongo-express
+#    depends_on:
+#      - mongo
+#    environment: 
+#      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+#      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+#      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+#    ports: 
+#      - "127.0.0.1:8081:8081"
+#    labels:
+#      com.rjcoleman.dvnosqli: "dvnosqli"
+#    networks:
+#      - network
+#    restart: unless-stopped

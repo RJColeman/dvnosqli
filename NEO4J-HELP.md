@@ -37,7 +37,7 @@ In part, this application tests your knowledge of Neo4j and Cypher Query Languag
   <summary>Hints</summary>
 
   1. Modify the request so the application displays an error with the Cypher query. 
-  2. The payload here depends on understanding Cypher Query Language as well as understanding how application code might rely on variable names used in the ```return`` portion of the query. 
+  2. The payload here depends on understanding Cypher Query Language as well as understanding how application code might rely on variable names used in the ```return``` portion of the query. 
 </details>
 
 <details>
@@ -79,7 +79,7 @@ In part, this application tests your knowledge of Neo4j and Cypher Query Languag
   7. Use the list of "persons" you used in Medium as the payload for ```person```.
   8. Use a list you've gathered from the previous 2 steps as the payload for ```role```.
   9. Click ```start attack```.
-  10. Search for ```FLAG`` in the results to find the 3 flags at this level.
+  10. Search for ```FLAG``` in the results to find the 3 flags at this level.
 </details>
 
 ### BONUS  
