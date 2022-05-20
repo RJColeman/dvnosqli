@@ -144,5 +144,12 @@ table, form {
     text-align: left;
   }
 }
-
-
+.code {
+  width: 50vw;
+  border-radius: 25px;
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #1a8ae5;
+  background: #ccc;
+  font-family: monospace;
+}

@@ -1,5 +1,6 @@
 <?php
 
+session_start();
 // set level in cookie
 $levels = array('0','1','2','3');
 

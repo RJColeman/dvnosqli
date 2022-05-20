@@ -22,7 +22,7 @@ if (isset($_GET['test'])) {
 
     $redis = CacheBuilder::create()
             ->withLevel($_COOKIE['level']);
-    $redis->getSession($_COOKIE['PHPSESSION']);
+    $redis->getSession($_COOKIE['PHPSESSID']);
 
   } catch (Exception $e) {
     error_log("caught exception: ". $e->getMessage());

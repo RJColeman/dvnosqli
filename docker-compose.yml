@@ -14,7 +14,7 @@ services:
     stdin_open: true # docker run -i
     tty: true        # docker run -t
 #  node-app:
-#    build: ./apps/
+#    build: ./apps/node/
 #    image: "dvnosqli-node:latest"
 #    volumes:
 #      - "./apps/node/src:/var/www/html"
