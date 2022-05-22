@@ -22,12 +22,14 @@ In part, this application tests your knowledge of MongoDB and [its operators](ht
   6. Now, in the location bar, edit the querystring by adding ```[$xx]``` between ```[name]``` and ```=``` and hit enter. The URL should look something like: ```http://localhost:8084/?fields[name][$rt]='"&fields[passwd]=asdf&db=mongodb&submit=submit```
   7. Observe the error rendered to the screen, and, if you are not familiar with [MongoDB operators](https://www.mongodb.com/docs/manual/reference/operator/query/), study them.
   8. Now modify the URL again, this time using valid operators with both ```[name]``` and ```[passwd]``` fields.
+  <blockquote>
   <details>
     <summary>Exact URL to get flags</summary>
     ```http://localhost:8084/?fields[name][$gt]=0&fields[passwd][$gt]=0&db=mongodb&submit=submit```
 
   </details>
 
+  </blockquote>
 </details>
 
 ### MEDIUM 
@@ -45,9 +47,7 @@ In part, this application tests your knowledge of MongoDB and [its operators](ht
   1. Browse to the [MongoDB page](http://localhost:8084/app/?db=mongodb) of the DVNoSQLi app.
   2. Enter ```'"``` into the username field and enter anything into the password field, then click submit.
   3. Observe the error rendered to the screen.
-  3. Craft the payload you think will work, entering your payload into the username or password field, then click submit.
-  <details>
-    <summary>Exact payload that will work</summary>
+  3. Craft the payload you think will work, entering your payload into the username or password field, then click submit:
     ```'; return true; //```
 
   </details>
