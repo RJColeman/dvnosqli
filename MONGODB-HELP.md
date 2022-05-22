@@ -52,7 +52,7 @@ In part, this application tests your knowledge of MongoDB and [its operators](ht
   4. Craft the payload you think will work, entering your payload into the username or password field, then click submit.
   <blockquote>
   <details>
-    <summary>Exact URL to get flags</summary>
+    <summary>Exact payload to get flags</summary>
 
     '; return true; //
 
@@ -83,7 +83,8 @@ In part, this application tests your knowledge of MongoDB and [its operators](ht
   5. What information might you attack in the POST request body other than the values of name and passwd?
   <blockquote>
     <details>
-      <summary>Click for answer attach parameters</summary>
+      <summary>Click for list of attack parameters</summary>
+
       name
       passwd
 
