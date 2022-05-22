@@ -49,8 +49,16 @@ In part, this application tests your knowledge of MongoDB and [its operators](ht
   1. Browse to the [MongoDB page](http://localhost:8084/app/?db=mongodb) of the DVNoSQLi app.
   2. Enter ```'"``` into the username field and enter anything into the password field, then click submit.
   3. Observe the error rendered to the screen.
-  3. Craft the payload you think will work, entering your payload into the username or password field, then click submit:
-    ```'; return true; //```
+  4. Craft the payload you think will work, entering your payload into the username or password field, then click submit.
+  <blockquote>
+  <details>
+    <summary>Exact URL to get flags</summary>
+
+    '; return true; //
+
+  </details>
+
+  </blockquote>
 
   </details>
 
@@ -73,12 +81,16 @@ In part, this application tests your knowledge of MongoDB and [its operators](ht
   3. Enter any username and passwrod combo you like and hit submit.
   4. Back in Burp, examine the POST body of the request.
   5. What information might you attack in the POST request body other than the values of name and passwd?
+  <blockquote>
     <details>
-      <summary>Click for answer</summary>
-      You can also attack the field names to see if you can get the application to reveal data from fields other than ```name``` and ```passwd```
+      <summary>Click for answer attach parameters</summary>
+      name
+      passwd
 
-  </details>
+    </details>
   
+  </blockquote>
+
   6. Go ahead and forward the request on.
   7. In Burp, go into the **HTTP History** tab of the **Proxy** app and find the request you just observed.
   8. Right click the request and send it to **Intruder**.
