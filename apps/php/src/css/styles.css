@@ -17,7 +17,7 @@ li {
 
 
 td, div, span, ul,ol,dl,p {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 }
 
 table, form {
@@ -144,12 +144,34 @@ table, form {
     text-align: left;
   }
 }
-.code {
-  width: 50vw;
+input { 
+  border-radius: 5px;
+  border: 2px solid #1a8ae5;
+  font-size: 0.8em;
+  padding: 3px;
+  font-size: 1em;
+}
+input[type=submit], select {
+  border-radius: 5px;
+  padding: 5px;
+  border: 2px solid #1a8ae5;
+  background: #ccc;
+  font-size: 0.8em;
+  white-space: pre-wrap;
+}
+input[type=submit]:hover {
+  padding: 4px;
+  border: 3px solid #1a8ae5;
+  background: #bbb;
+}
+
+.good-code {
   border-radius: 25px;
   margin-top: 10px;
   padding: 10px;
-  border: 1px solid #1a8ae5;
-  background: #ccc;
+  border: 1px solid #b6ff87;
+  background: #eee;
   font-family: monospace;
+  font-size: 1.0em;
+  white-space: pre-wrap;
 }

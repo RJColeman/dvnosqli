@@ -56,26 +56,18 @@ services:
       com.rjcoleman.dvnosqli: "dvnosqli"
     networks:
       - network
-  mongo-load: # only for loading mongo data
-    build: ./data-load/mongo/
-    image: "mongo-load:dvnosqli"
-    command: sh /start.sh
+  mongo-frontend:
+    image: mongo-express
     depends_on:
       - mongo
+    environment: 
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+    ports: 
+      - "127.0.0.1:8081:8081"
+    labels:
+      com.rjcoleman.dvnosqli: "dvnosqli"
     networks:
       - network
-#  mongo-frontend:
-#    image: mongo-express
-#    depends_on:
-#      - mongo
-#    environment: 
-#      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-#      ME_CONFIG_MONGODB_ADMINPASSWORD: example
-#      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
-#    ports: 
-#      - "127.0.0.1:8081:8081"
-#    labels:
-#      com.rjcoleman.dvnosqli: "dvnosqli"
-#    networks:
-#      - network
-#    restart: unless-stopped
+    restart: unless-stopped

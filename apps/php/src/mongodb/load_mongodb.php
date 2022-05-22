@@ -21,24 +21,9 @@ $bulk->insert(["name" => 'rjcoleman', "role"=>"user", "age" => 21, "passwd" => "
 $bulk->insert(["name" => 'Retupmoc',"role"=>"bot",  "age" => 19, "passwd" => "keep_me_posted"]);
 $bulk->insert(["name" => 'Rekcah', "role"=>"user", "age" => 21, "passwd" => "snack-crackers"]);
 $bulk->insert(["name" => 'Superadmin', "role"=>"admin", "age" => 22, "passwd" => "FLAG!!!EASY^MEDIUM"]);
+$bulk->insert(["id" => 'aeiqaf', "user" => "rjcoleman", "data" => "FLAG!!HARD"]);
 $result = $manager->executeBulkWrite('test.users', $bulk);
 echo $result->getInsertedCount() . " documents inserted\n";
-
-// sessions
-try {
-    echo "Resetting test.sessions<br/>";
-    $command = new \MongoDB\Driver\Command(["drop" => "sessions"]);
-    $result = $manager->executeCommand('test', $command);
-    echo "Collection sessions has dropped<br />\n";
-} catch (MongoDB\Driver\Exception\RuntimeException$e) {
-    echo "Collection sessions not exists<br />\n";
-}
-
-$bulk = new MongoDB\Driver\BulkWrite;
-$bulk->insert(["id" => 'rjcoleman', "data" => "FLAG!!HARD"]);
-$result = $manager->executeBulkWrite('test.sessions', $bulk);
-echo $result->getInsertedCount() . " documents inserted\n";
-
 
 ?>
 <br />

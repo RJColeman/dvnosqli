@@ -5,7 +5,7 @@ $name = $passwd = $flag = $msg = false;
 if (isset($_REQUEST['fields']['name'])) {
   if (!is_string($_REQUEST['fields']['name'])) {
     // do not print error to the screen, only to the logs
-    error_log("ALERT name is being attacked. Should probably add IP address of attacker to logs");
+    error_log("ALERT name is being attacked.");
     $msg = "<br />Login Failed";
   } else {
     $name = $_REQUEST['fields']['name'];  
@@ -15,7 +15,7 @@ if (isset($_REQUEST['fields']['name'])) {
 if (isset($_REQUEST['fields']['passwd'])) {
   if (!is_string($_REQUEST['fields']['passwd'])) {
     // do not print error to the screen, only to the logs
-    error_log("ALERT passwd is being attacked. Should probably add IP address of attacker to logs");
+    error_log("ALERT passwd is being attacked.");
     $msg = "<br />Login Failed";
   } else {
     $passwd = $_REQUEST['fields']['passwd'];  
@@ -39,20 +39,20 @@ if ($name && $passwd) {
       echo '<br/>====Login Successful====</br>';
       echo 'name: ' . htmlentities($user['name']) . '<br />';
       echo 'passwd: ' . htmlentities($user['passwd']) . '<br />';
-      if ($user['passwd'] != $passwd && !$flag) {
+      if ($user['passwd'] != $passwd) {
         $flag = true;
       }
     }
-    if ($flag > 1) {
+    if ($flag) {
       echo "<br />";
+      echo "<h3 style='color: red; font-weight: heavy;'>If you are here, you have used an unexpected vulnerability! Please submit <a href='https://github.com/RJColeman/tools/issues' target='_blank'>an issue</a> describing the steps you took.</h3>";
       require_once $_BASE_PATH . "content/banner.html";
-      print_good_code();
 
     } else if (count($users) == 0) {
       echo "<br />Login Failed!";
       print_good_code();
     } else {
-      echo "<br />please enter username and password";
+      print_good_code();
     }
   } catch (Exception $e) {
     error_log("ALERT " . $e->getMessage());
@@ -73,42 +73,51 @@ Below is the code mitigating NoSQLi vulnerabilities for this MongoDB instance. T
 <ul>
 <li>This code rejects input that does not meet data requirements. In this case, the data must be a string. No arrays</li>
 <li>This code is Not using the $where operator, which allows JavaScript to be passed to the server</li>
-<li>This code logs when unexpected data types are pssed in</li>
-<li>This code DOES NOT print unnecessary errors to the browser. "Login Failed" and "Please enter both username and password" are all our users need to know.</li>
+<li>This code logs when unexpected data types are passed in</li>
+<li>This code DOES NOT print unnecessary errors to the browser. 
+  <ul>
+    <li>"Login Failed" and "Please enter both username and password" are sufficient errors for users.</li>
+  </ul></li>
 </ul>
-&nbsp;&nbsp;<div class="code">
-&nbsp;&nbsp;// validate input data: in our case, name &amp; passwd should be strings<br/><br />
-&nbsp;&nbsp;if (isset($_REQUEST["fields"]["name"])) {<br/><br />
-&nbsp;&nbsp;&nbsp;&nbsp;if (!is_string($_REQUEST["fields"]["name"])) {<br/><br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// do not print error to the screen, only to the logs<br/><br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error_log("ALERT name is being attacked. Add IP address of attacker to logs");<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$msg = "Login Failed";<br/><br />
-&nbsp;&nbsp;&nbsp;&nbsp;} else {<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$name = $_REQUEST["fields"]["name"];<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
-&nbsp;&nbsp;}<br/>
-<br />
-&nbsp;&nbsp;if (isset($_REQUEST["fields"]["passwd"])) {<br/><br />
-&nbsp;&nbsp;&nbsp;&nbsp;if (!is_string($_REQUEST["fields"]["passwd"])) {<br/><br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// do not print error to the screen, only to the logs<br/><br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error_log("ALERT passwd is being attacked. Add IP address of attacker to logs");<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$msg = "Login Failed";<br/><br />
-&nbsp;&nbsp;&nbsp;&nbsp;} else {<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$passwd = $_REQUEST["fields"]["passwd"];<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
-&nbsp;&nbsp;}<br/>
-<br/>
-&nbsp;&nbsp;... code omitted ...
-<br />
-<br/>
-&nbsp;&nbsp;// build query<br/>
-&nbsp;&nbsp;$query=new MongoDB\Driver\Query(array(<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;"name" => strval($name),<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;"passwd" => strval($passwd)<br/>
-&nbsp;&nbsp;));<br/>
-<br/>
-&nbsp;&nbsp;... code omitted ...
-&nbsp;&nbsp;</div>
+<pre class="good-code">
+  // validate input data: name &amp; passwd should be strings
+  if (isset($_REQUEST["fields"]["name"])) {
+
+    if (!is_string($_REQUEST["fields"]["name"])) {
+
+      // do not print error to the screen, only to the logs
+      error_log("ALERT name is being attacked.");
+      $msg = "Login Failed";
+
+    } else {
+      $name = $_REQUEST["fields"]["name"];
+    }
+  }
+
+  if (isset($_REQUEST["fields"]["passwd"])) {
+
+    if (!is_string($_REQUEST["fields"]["passwd"])) {
+
+      // do not print error to the screen, only to the logs
+      error_log("ALERT passwd is being attacked.");
+      $msg = "Login Failed";
+
+    } else {
+      $passwd = $_REQUEST["fields"]["passwd"]
+    }
+  }
+
+  ... code omitted ...
+
+
+  // build query
+  $query=new MongoDB\Driver\Query(array(
+    "name" => strval($name),
+    "passwd" => strval($passwd)
+  ));
+
+  ... code omitted ...
+</pre>
 
 ';
 

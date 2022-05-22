@@ -2,7 +2,7 @@
 $method = ($_COOKIE['level'] > 1 ? ' method="post"' : ' method="get"'); 
 ?>
 <form action="/mongodb/load_mongodb.php"  method="POST">
-<input name="load" value="Load / Reset MongoDB Data" type="submit" />
+<input class="button" name="load" value="Load / Reset MongoDB Data" type="submit" />
 </form>
 <br />
 Please enter both username and password below:
@@ -14,10 +14,7 @@ Password: <input type="text" id="passwd" name="fields[passwd]" value="<?= (isset
 <br />
 <br />
 <input type="hidden" name="db" value="mongodb" />
-<?php if ($_COOKIE['level'] == 2) { ?>
-<input type="hidden" name="collection" value="users" />
-<?php }?>
-<input type="submit" name="submit" value="submit" />
+<input class="button" type="submit" name="submit" value="submit" />
 </form>
 
 <?php 
@@ -29,12 +26,13 @@ if ($_COOKIE['level'] > 2) {
     $name = isset($_REQUEST['fields']['name']) ? $_REQUEST['fields']['name'] : '';
     $passwd = isset($_REQUEST['fields']['passwd']) ? $_REQUEST['fields']['passwd'] : '';
  
-    $collection = "users";
+    // easy
     if ($_COOKIE['level'] == 0) {
       $query=new MongoDB\Driver\Query(array(
         "name" => $name,
         "passwd" => $passwd
       ));
+    // medium
     } else if ($_COOKIE['level'] == 1) {
       $function = "
       function() {
@@ -48,14 +46,13 @@ if ($_COOKIE['level'] > 2) {
       $query = new MongoDB\Driver\Query(array(
         '$where' => $function
       ));
+    // hard
     } else if ($_COOKIE['level'] == 2) {
-      $collection = (isset($_REQUEST['collection']) ? $_REQUEST['collection'] : 'users');
       $query=new MongoDB\Driver\Query($_REQUEST['fields']);
-    } else if ($_COOKIE['level'] == 3) {
     }
  
     try {
-      $users = $manager->executeQuery("test.$collection",$query)->toArray();
+      $users = $manager->executeQuery("test.users",$query)->toArray();
       $content = '';
       foreach ($users as $user) {
         $user = ((array)$user);
