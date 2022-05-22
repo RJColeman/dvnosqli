@@ -85,10 +85,10 @@ In part, this application tests your knowledge of MongoDB and [its operators](ht
     <details>
       <summary>Click for list of attack parameters</summary>
 
+      ~~
       name
       passwd
-
-    </details>
+      ~~
   
   </blockquote>
 
