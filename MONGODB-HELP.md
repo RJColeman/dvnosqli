@@ -71,10 +71,9 @@ In part, this application tests your knowledge of MongoDB and [its operators](ht
   3. Enter any username and passwrod combo you like and hit submit.
   4. Back in Burp, examine the POST body of the request.
   5. What information might you attack in the POST request body other than the values of name and passwd?
-  <details>
-    <summary>Click for answer</summary>
-    You can also attack the field names to see if you can get the application to reveal data from fields other than 
-    ```name``` and ```passwd```
+    <details>
+      <summary>Click for answer</summary>
+      You can also attack the field names to see if you can get the application to reveal data from fields other than ```name``` and ```passwd```
 
   </details>
   
