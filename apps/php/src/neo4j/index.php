@@ -22,6 +22,7 @@ try {
   $search->setInclude(['Tom Hanks']);
 
   $names = $search->getNames();
+
   $data = [];
   if (isset($_POST['search'])) {
     if ($_COOKIE['level'] > 0) {
@@ -65,4 +66,62 @@ if (strstr($output, 'FLAG')) {
   require_once($_BASE_PATH . 'content/banner.html');
 }
 echo $output;
+
+if ($_COOKIE['level'] > 2 && isset($_POST['search'])) {
+?>
+<br />
+<br />
+==== Mitigation Information Below ====<br />
+<br />
+Below is the code mitigating NoSQLi vulnerabilities for this Neo4j instance. Three things to note:
+<ul>
+<li>This code validates input:
+  <ul>
+    <li>The code checks that data exists when it is required.</li>
+    <li>The code checks include and allow lists before putting data in query.</li>
+    <li>The code rejects input that does not meet data requirements.</li>
+  </ul>
+</li>
+<li>This code logs when unexpected data types are passed in.</li>
+<li>This code DOES NOT print unnecessary errors to the browser: 
+  <ul>
+    <li>"No results found" gives no information about the database in use.</li>
+    <li>"No results found" gives no information about any database errors.</li>
+  </ul></li>
+<li>This code uses parameterized queries:
+  <ul>
+    <li>Even if injection gets past validation and sanistization, it will not make it into the query.</li>
+  </ul></li>
+</ul>
+<pre class="good-code">
+// validate role exists
+if (!$role) {
+  error_log("ALERT: Unexpected data sent to Search->getData, missing role");
+  throw new Exception("Role cannot be null");
+}
+
+// validate name in search is in the include list and 
+// role is in allow list for roles
+$allowed_roles = ['ACTED_IN', 'DIRECTED', 'PRODUCED', 'WROTE'];
+
+if ((count($this->include) > 0 && !in_array($name, $this->include)) || 
+    !in_array($role, $allowed_roles)) {
+  error_log("ALERT: Unexpected data sent to Search->getData");
+  throw new Exception("No results found");
+}
+
+// if something goes wrong with the query, 
+// log the error message from neo4j 
+// and send generic error to the client
+try {
+  $query = 'MATCH (person:Person {name: $name})-[role]->(movie:Movie) ' . 
+           'WHERE TYPE(role) = "' . $role . '" RETURN person,role,movie';
+  $this->results = $this->neo4j->run($query, ['name' => $name, 'role' => $role]);
+} catch (Exception $e) {
+  error_log("ALERT: Search->getData() caught exception: ". $e->getMessage());
+  throw new Exception("No results found");
+}
+</pre>
+<?php
+}
 ?>
