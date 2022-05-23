@@ -66,14 +66,16 @@ if ($msg) echo $msg;
 function print_good_code() {
   echo '
 <br />
-<br />
-==== Mitigation Information Below ====<br />
-<br />
+<h3>====== Mitigation Information Below ======</h3>
 Below is the code mitigating NoSQLi vulnerabilities for this MongoDB instance. Three things to note:
 <ul>
-<li>This code rejects input that does not meet data requirements. In this case, the data must be a string. No arrays</li>
-<li>This code is Not using the $where operator, which allows JavaScript to be passed to the server</li>
-<li>This code logs when unexpected data types are passed in</li>
+<li>This code rejects input that does not meet data requirements: 
+  <ul><li>In this case, the data must be a string, ie. no arrays.</li>
+  </ul></li>
+<li>This code is Not using the $where operator, which allows JavaScript to be passed to the server.
+  <ul><li>Serverside Javascript should be disabled in MongoDB if not needed.</li>
+  </ul></li>
+<li>This code logs when unexpected data types are passed in.</li>
 <li>This code DOES NOT print unnecessary errors to the browser. 
   <ul>
     <li>"Login Failed" and "Please enter both username and password" are sufficient errors for users.</li>

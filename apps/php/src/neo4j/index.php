@@ -71,9 +71,9 @@ if ($_COOKIE['level'] > 2 && isset($_POST['search'])) {
 ?>
 <br />
 <br />
-==== Mitigation Information Below ====<br />
+<h3>====== Mitigation Information Below ======</h3>
 <br />
-Below is the code mitigating NoSQLi vulnerabilities for this Neo4j instance. Three things to note:
+Below is the code mitigating NoSQLi vulnerabilities for this Neo4j instance. Four things to note:
 <ul>
 <li>This code validates input:
   <ul>

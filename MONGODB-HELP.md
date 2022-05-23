@@ -66,6 +66,8 @@ In part, this application tests your knowledge of MongoDB and [its operators](ht
 
 ### HARD
 
+This section is marked HARD because it requires a bit of knowledge about using an intercept proxy at a bit more than beginner level. The NoSQLi part is not new.
+
 <details>
   <summary>Hints</summary>
 
