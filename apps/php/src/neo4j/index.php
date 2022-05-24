@@ -67,12 +67,50 @@ if (strstr($output, 'FLAG')) {
 }
 echo $output;
 
-if ($_COOKIE['level'] > 2 && isset($_POST['search'])) {
+if (isset($_POST['search'])) {
+
+echo "<br />
+<br />";
+  if ($_COOKIE['level'] == 0 && strstr($output, 'FLAG')) {
 ?>
-<br />
-<br />
-<h3>====== Mitigation Information Below ======</h3>
-<br />
+
+<details>
+  <summary>====== Problematic Code Below ======</summary>
+<pre class="bad-code">
+  function getData(string $name, ?string $role = null): void {
+    try {
+      $query = 'MATCH (person:Person)-[role]->(movie) WHERE person.name = "' . $name . '"';
+      if ($role) {
+        $query .= ' AND TYPE(role) = "' . $role . '"'; 
+      }
+      $query .= ' RETURN person,role,movie';
+      $this->results = $this->neo4j->run($query );
+    } catch (Exception $e) {
+      echo ("There was an error with your query " . $e->getMessage());
+      echo ("<br>");
+      echo ($query);
+      throw $e;
+    }
+  }
+</pre>
+
+</details>
+
+<?php
+  } else if ($_COOKIE['level'] == 1 && strstr($output, 'FLAG')) {
+?>
+<details>
+  <summary>====== Problematic Code Below ======</summary>
+<?php
+  } else if ($_COOKIE['level'] == 2 && strstr($output, 'FLAG')) {
+?>
+<details>
+  <summary>====== Problematic Code Below ======</summary>
+<?php
+  } else if ($_COOKIE['level'] > 2) {
+?>
+<details>
+  <summary>====== Mitigation Information Below ======</summary>
 Below is the code mitigating NoSQLi vulnerabilities for this Neo4j instance. Four things to note:
 <ul>
 <li>This code validates input:
@@ -115,13 +153,17 @@ if ((count($this->include) > 0 && !in_array($name, $this->include)) ||
 // and send generic error to the client
 try {
   $query = 'MATCH (person:Person {name: $name})-[role]->(movie:Movie) ' . 
-           'WHERE TYPE(role) = "' . $role . '" RETURN person,role,movie';
+           'WHERE TYPE(role) = "$role" RETURN person,role,movie';
   $this->results = $this->neo4j->run($query, ['name' => $name, 'role' => $role]);
 } catch (Exception $e) {
   error_log("ALERT: Search->getData() caught exception: ". $e->getMessage());
   throw new Exception("No results found");
 }
 </pre>
+
+</details>
+
 <?php
+  }
 }
 ?>
