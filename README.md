@@ -1,7 +1,5 @@
 # Getting up and running 
 
-## PHP & Nginx Details
-
 To run your first build run the following commands:
 
 ```
