@@ -1,3 +1,7 @@
+# Why
+
+I wanted to understand NoSQL Injection with Neo4j and MongoDB, so I built this vulnerable web application. It is still under construction, but for the most part, Neo4j and MongoDB work. 
+
 # Getting up and running 
 
 To run your first build run the following commands:
@@ -16,9 +20,19 @@ At the very end you should see output as follows:
   Completeed Neo4j data load ....
   ``` 
 
+Next browse to the web front end browse to [http://localhost:8084/](http://localhost:7474/browser/) and in the MongoDB section, reseet the MongoDB database.
+
+# Notes on docker compoase
+
+Because docker compose v1 (written in python) and docker compose v2 (written in go) use _ or - respectively when naming networks, you may need to run the docker-compose command with `-- compatibility' flag as this project depends on the _ (underscore) in network names.
+
+# Rebuilding 
+
 To rebuld from scratch, make sure you've removed all related docker images, containers, volumes, and networks, then re-run the steps above. 
 
 # Network Details
+
+Because docker compose v1 (written in python) and docker compose v2 (written in go) use _ or - respectively when naming networks, you may need to run the docker-compose command with `-- compatibility' flag as this project depends on the _ (underscore) in network names.
 
 # Accessing the assets
 
