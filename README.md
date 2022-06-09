@@ -18,11 +18,7 @@ At the very end you should see output as follows:
   Completeed Neo4j data load ....
   ``` 
 
-To rebuld from scratch, make sure you've removed all related docker images, containers, volumes, and networks, then re-run the steps above. You may use the following command to clear out docker objects, but you should examine the commands in this shell script first.
-
-```
-sh bin/start-over-clean.sh
-```
+To rebuld from scratch, make sure you've removed all related docker images, containers, volumes, and networks, then re-run the steps above. 
 
 # Network Details
 
