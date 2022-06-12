@@ -6,7 +6,7 @@ The web interface renders the problmeatic code once injection has been accomplis
 
 # Getting up and running 
 
-To run your first build run the following commands:
+To run your first build, after cloning this repository, execute the following commands:
 
 ```
 $> docker compose build
@@ -22,11 +22,11 @@ At the very end you should see output as follows:
   Completeed Neo4j data load ....
   ``` 
 
-Next browse to the web front end browse to [http://localhost:8084/](http://localhost:7474/browser/) and in the MongoDB section, reseet the MongoDB database.
+Next browse to the web front end at [http://localhost:8084/](http://localhost:8084/) and in the MongoDB section, [reset the MongoDB database](https://github.com/RJColeman/dvnosqli#mongo).
 
 # Notes on docker compoase
 
-Because [docker compose v1 (written in python) and docker compose v2 (written in go) use _ or - respectively](https://stackoverflow.com/questions/69464001/docker-compose-container-name-use-dash-instead-of-underscore) when naming networks, I've included the  `-- compatibility` flag in the docker compose up command because this project depends on the _ (underscore) in network names.
+Because [docker compose v1 (written in python) and docker compose v2 (written in go) use _ or - respectively](https://stackoverflow.com/questions/69464001/docker-compose-container-name-use-dash-instead-of-underscore) when naming networks, I've included the  `--compatibility` flag in the `docker compose up` command because this project depends on the _ (underscore) in network names.
 
 # Solutions
 
@@ -41,17 +41,17 @@ To rebuld from scratch, make sure you've removed all related docker images, cont
 
 # Network Details
 
-Because [docker compose v1 (written in python) and docker compose v2 (written in go) use _ or - respectively](https://stackoverflow.com/questions/69464001/docker-compose-container-name-use-dash-instead-of-underscore) when naming networks, I've included the  `-- compatibility` flag in the docker compose up command because this project depends on the _ (underscore) in network names.
+Because [docker compose v1 (written in python) and docker compose v2 (written in go) use _ or - respectively](https://stackoverflow.com/questions/69464001/docker-compose-container-name-use-dash-instead-of-underscore) when naming networks, I've included the  `--compatibility` flag in the `docker compose up` command because this project depends on the _ (underscore) in network names.
 
 # Accessing the assets
 
 ## Web Frontend
 
-To access the web front end browse to [http://localhost:8084/](http://localhost:7474/browser/)
+To access the web front end browse to [http://localhost:8084/](http://localhost:8084/)
 
 ## Neo4j 
 
-To confirm that the test data was loaded:
+To confirm that the test data was loaded for neo4j:
 
 1. Browse to [http://localhost:7474/browser/](http://localhost:7474/browser/)
 2. Log in with username/password neo4j/protect-toga-hair-oberon-coral-2052
