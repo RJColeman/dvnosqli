@@ -9,8 +9,8 @@ The web interface renders the problmeatic code once injection has been accomplis
 To run your first build run the following commands:
 
 ```
-$> docker-compose build
-$> docker-compose up
+$> docker compose build
+$> docker compose --compatibility up -d
 $> sh bin/load-neo4j.sh
 ```
 
@@ -26,7 +26,7 @@ Next browse to the web front end browse to [http://localhost:8084/](http://local
 
 # Notes on docker compoase
 
-Because docker compose v1 (written in python) and docker compose v2 (written in go) use _ or - respectively when naming networks, you may need to run the docker-compose command with `-- compatibility' flag as this project depends on the _ (underscore) in network names.
+Because [docker compose v1 (written in python) and docker compose v2 (written in go) use _ or - respectively](https://stackoverflow.com/questions/69464001/docker-compose-container-name-use-dash-instead-of-underscore) when naming networks, I've included the  `-- compatibility` flag in the docker compose up command because this project depends on the _ (underscore) in network names.
 
 # Solutions
 
@@ -41,7 +41,7 @@ To rebuld from scratch, make sure you've removed all related docker images, cont
 
 # Network Details
 
-Because docker compose v1 (written in python) and docker compose v2 (written in go) use _ or - respectively when naming networks, you may need to run the docker-compose command with `-- compatibility' flag as this project depends on the _ (underscore) in network names.
+Because [docker compose v1 (written in python) and docker compose v2 (written in go) use _ or - respectively](https://stackoverflow.com/questions/69464001/docker-compose-container-name-use-dash-instead-of-underscore) when naming networks, I've included the  `-- compatibility` flag in the docker compose up command because this project depends on the _ (underscore) in network names.
 
 # Accessing the assets
 
@@ -64,14 +64,10 @@ To confirm that the test data was loaded:
 
 ## Mongo
 
-You need to set up the database used by application:
+You need to load the data used by application:
 
-1. Browse to [http://localhost:8081/](http://localhost:8081/)
-2. Enter `test` into the `+ create database` field and click `+ create database`
-3.  mongoimport -u root -p example --authenticationDatabase admin --db test --collection restaurants --type json --file j.json
-
-* Test data from https://raw.githubusercontent.com/ozlerhakan/mongodb-json-files/master/datasets/restaurant.json
-
+1. Browse to [http://localhost:8084/?db=mongodb](http://localhost:8084/?db=mongodb)
+2. Click the "reset/load" button
 
 To access the mongodb shell:
 
