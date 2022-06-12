@@ -2,6 +2,8 @@
 
 I wanted to understand NoSQL Injection with Neo4j and MongoDB, so I built this vulnerable web application. It is still under construction, but for the most part, Neo4j and MongoDB work. 
 
+The web interface renders the problmeatic code once injection has been accomplished in easy medium hard levels and renders mitigation code in impossible level.
+
 # Getting up and running 
 
 To run your first build run the following commands:
@@ -25,6 +27,13 @@ Next browse to the web front end browse to [http://localhost:8084/](http://local
 # Notes on docker compoase
 
 Because docker compose v1 (written in python) and docker compose v2 (written in go) use _ or - respectively when naming networks, you may need to run the docker-compose command with `-- compatibility' flag as this project depends on the _ (underscore) in network names.
+
+# Solutions
+
+For walkthrough information see:
+
+- [Neo4j Walkthrough hints and steps](https://github.com/RJColeman/dvnosqli/blob/main/NEO4J-HELP.md)
+- [MongoDB Walkthrough hints and steps](https://github.com/RJColeman/dvnosqli/blob/main/MONGODB-HELP.md)
 
 # Rebuilding 
 
