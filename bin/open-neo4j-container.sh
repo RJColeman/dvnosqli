@@ -1,2 +1,2 @@
-cid=$(docker container ls | grep neo4j | awk '{print$1}')
+cid=$(docker ps --filter "name=dvnosqli_neo4j*" -aq)
 docker exec -it $cid /bin/bash

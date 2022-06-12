@@ -78,6 +78,7 @@ docker builder prune -f
 echo ""
 echo ""
 echo "To restart dvnosqli run"
+echo ""
 echo "    docker compose build"
 echo "    docker compose --compatibility up -d"
 echo "    sh bin/load-neo4j.sh" 
