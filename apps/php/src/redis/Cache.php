@@ -45,7 +45,7 @@ class Cache {
   function __construct($level) {
     //Connecting to Redis server on localhost 
     $this->redis = new Redis(); 
-    $this->redis->connect('dvnosqli_redis_1', 6379); 
+    $this->redis->connect('dvnosqli-redis-1', 6379); 
     // setting difficulty level
     $this->level = $level;
   }

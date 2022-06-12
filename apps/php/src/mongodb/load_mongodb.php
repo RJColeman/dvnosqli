@@ -4,7 +4,7 @@
 	</head>
   <?php
 // reset
-$manager = new MongoDB\Driver\Manager("mongodb://root:example@dvnosqli_mongo_1:27017");
+$manager = new MongoDB\Driver\Manager("mongodb://root:example@dvnosqli-mongo-1:27017");
 
 // users
 try {

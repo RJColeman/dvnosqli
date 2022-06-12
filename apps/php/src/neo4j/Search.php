@@ -37,7 +37,7 @@ class Search {
 
   function __construct($level) {
     $this->neo4j = ClientBuilder::create()
-        ->withDriver('bolt', 'bolt://neo4j:protect-toga-hair-oberon-coral-2052@dvnosqli_neo4j_1:7687') // creates a bolt driver
+        ->withDriver('bolt', 'bolt://neo4j:protect-toga-hair-oberon-coral-2052@dvnosqli-neo4j-1:7687') // creates a bolt driver
         ->build();
     $this->level = $level;
   }

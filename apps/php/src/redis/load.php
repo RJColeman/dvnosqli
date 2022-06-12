@@ -1,7 +1,7 @@
 <?php
 
 $redis = new Redis(); 
-$redis->connect('dvnosqli_redis_1', 6379); 
+$redis->connect('dvnosqli-redis-1', 6379); 
 echo "<p>clearing current data...</p>";
 echo "<p>loading new data...</p>";
 $redis->flushAll();

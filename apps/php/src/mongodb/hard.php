@@ -1,6 +1,6 @@
 <?php
 if (isset($_REQUEST['fields']) && isset($_REQUEST['fields'])) {
-  $manager = new MongoDB\Driver\Manager("mongodb://root:example@dvnosqli_mongo_1:27017");
+  $manager = new MongoDB\Driver\Manager("mongodb://root:example@dvnosqli-mongo-1:27017");
   $name = isset($_REQUEST['fields']['name']) ? $_REQUEST['fields']['name'] : '';
   $passwd = isset($_REQUEST['fields']['passwd']) ? $_REQUEST['fields']['passwd'] : '';
 

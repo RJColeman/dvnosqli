@@ -15,10 +15,10 @@ then
 fi
 
 # 1. gets dvnosqli images for later removal
-remove_images=$(docker inspect --format='{{.Image}}' $(docker ps --filter "name=dvnosqli.*" -aq)) 2> null
+remove_images=$(docker inspect --format='{{.Image}}' $(docker ps --filter "name=dvnosqli.*" -aq)) 2> /dev/null
                                                            
 # 2. gets dvnosqli volumes for later removal
-volumes=$(docker volume ls  --format '{{.Name}}') 2> null 
+volumes=$(docker volume ls  --format '{{.Name}}') 2> /dev/null 
 remove_volumnes=""
 
 for volume in $volumes
@@ -61,7 +61,7 @@ done
 echo ""
 echo "removing all networks for dvnosqli......"
 echo ""
-docker network rm $(docker network ls --filter "name=dvnosqli.*" -q) 2> null 
+docker network rm $(docker network ls --filter "name=dvnosqli.*" -q) 2> /dev/null 
 
 # 8. removes all dvnosqli neo4j data
 echo ""
