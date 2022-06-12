@@ -6,21 +6,21 @@ The web interface renders the problmeatic code once injection has been accomplis
 
 # Getting up and running 
 
-To run your first build, after cloning this repository, execute the following commands:
+To run your first build, after cloning this repository, execute the following commands from the repository's root directory:
 
 ```
-$> docker compose build
-$> docker compose --compatibility up -d
-$> sh bin/load-neo4j.sh
+docker compose build
+docker compose --compatibility up -d
+sh bin/load-neo4j.sh
 ```
 
 At the very end you should see output as follows:
 
-  ```
-  Connecting to Neo4j container ....
-  Executing Neo4j data load ....
-  Completeed Neo4j data load ....
-  ``` 
+```
+Connecting to Neo4j container ....
+Executing Neo4j data load ....
+Completeed Neo4j data load ....
+``` 
 
 Next browse to the web front end at [http://localhost:8084/](http://localhost:8084/) and in the MongoDB section, [reset the MongoDB database](https://github.com/RJColeman/dvnosqli#mongo).
 
