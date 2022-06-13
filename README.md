@@ -2,13 +2,13 @@
 
 I wanted to understand NoSQL Injection with Neo4j and MongoDB, so I built this vulnerable web application. It is still under construction, but for the most part, Neo4j and MongoDB work. 
 
-The web interface renders the problmeatic code once injection has been accomplished in easy medium hard levels and renders mitigation code in impossible level.
+The web interface renders the problematic code once injection has been accomplished in the easy, medium, and hard levels and renders mitigation code in the  impossible level.
 
 # Requires docker compose v 2
 
-Because this project was created using docker compose v2 and because [docker compose v1 (written in python) and docker compose v2 (written in go) use _ or - respectively](https://stackoverflow.com/questions/69464001/docker-compose-container-name-use-dash-instead-of-underscore) when naming machines in docker networks, this project will not work if run using docker compose v 1.
+Because this project was created using docker compose version 2 and because [docker compose v1 (written in python) and docker compose v2 (written in go) use _ or - respectively](https://stackoverflow.com/questions/69464001/docker-compose-container-name-use-dash-instead-of-underscore) when naming machines in docker networks, this project will not work if run using docker compose v 1.
 
-To confirm docker compose version:
+To find out what version of docker compose your system is using, run:
 
 ```
 docker compose version
@@ -29,34 +29,40 @@ At the very end you should see output as follows:
 ```
 Connecting to Neo4j container ....
 Executing Neo4j data load ....
-Completeed Neo4j data load ....
+Completed Neo4j data load ....
 ``` 
 
-Next browse to the web front end at [http://localhost:8084/](http://localhost:8084/) and in the MongoDB section, [reset the MongoDB database](https://github.com/RJColeman/dvnosqli#mongo).
+Next load the MongoDB data:
 
 
 
 # Solutions
 
-For walkthrough information see:
+For hints and walkthrough steps, see:
 
 - [Neo4j Walkthrough hints and steps](https://github.com/RJColeman/dvnosqli/blob/main/NEO4J-HELP.md)
 - [MongoDB Walkthrough hints and steps](https://github.com/RJColeman/dvnosqli/blob/main/MONGODB-HELP.md)
 
 # Rebuilding 
 
-## From scratch
+## Just the data
 
-To rebuild from scratch you can *manually* remove all containers, images, volumes, networks, cached build objects, and cached data or you can use the start-over-clean.sh script in the bin directory of this repository:
+1. Reset the MongoDB data by browsing to [http://localhost:8084/?db=mongodb](http://localhost:8084/?db=mongodb) and clicking the "reset/load" button.
+2. Reset the neo4j data by executing `sh bin/reset-neo4j.sh`, from the root of this repository.
+
+## The entire application
+
+To rebuild the entire application from scratch you can either:
+
+1. *Manually* remove all containers, images, volumes, networks, cached build objects, and cached data 
+
+-or-
+
+2. Use the `start-over-clean.sh` script in the bin directory of this repository by executing the following command from the root directory of this repository:
 
 ```
 sh bin/start-over-clean.sh
 ```
-
-## Just the data
-
-1. To reset the MongoDB data follow the [instructions in this document](https://github.com/RJColeman/dvnosqli#mongo).
-2. To reset the neo4j data, from the root of this repository, execute `sh bin/reset-neo4j.sh`
 
 # Network Details
 
@@ -157,11 +163,6 @@ To confirm that the test data was loaded for neo4j:
 4. You should see nodes and relationships
 
 ## Mongo
-
-You need to load the data used by application:
-
-1. Browse to [http://localhost:8084/?db=mongodb](http://localhost:8084/?db=mongodb)
-2. Click the "reset/load" button
 
 To access the mongodb shell:
 
