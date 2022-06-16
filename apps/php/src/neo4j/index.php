@@ -51,7 +51,6 @@ try {
 <?php if ($_COOKIE['level'] > 0) { ?>
   as
   <select name="role">
-    <option value="">-- select -- </option>
     <option value="ACTED_IN"<?= (isset($_POST['role']) && $_POST['role'] == 'ACTED_IN') ? ' selected': '' ?>>actor</option>
     <option value="DIRECTED"<?= (isset($_POST['role']) && $_POST['role'] == 'DIRECTED') ? ' selected': '' ?>>director</option>
     <option value="PRODUCED"<?= (isset($_POST['role']) && $_POST['role'] == 'PRODUCED') ? ' selected': '' ?>>producer</option>

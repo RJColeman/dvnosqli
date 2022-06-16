@@ -190,7 +190,7 @@ class Impossible extends Hard {
       throw new Exception("Invalid search attempt bad data");
     }
     try {
-      $query = 'MATCH (person:Person {name: $name})-[role]->(movie:Movie) WHERE TYPE(role) = "' . $role . '" RETURN person,role,movie';
+      $query = 'MATCH (person:Person {name: $name})-[role]->(movie:Movie) WHERE TYPE(role) = $role RETURN person,role,movie';
       $this->results = $this->neo4j->run($query, ['name' => $name, 'role' => $role]);
     } catch (Exception $e) {
       error_log("caught exception: ". $e->getMessage());
